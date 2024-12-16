@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bundle & Save</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.box-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.box {
+    width: 300px;
+    height: 100px;
+    background-color: #ccc;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+.box.expanded {
+    height: 300px;
+}
+
+.box-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options-container {
+    display: none;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    gap: 10px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+  </style>
+</head>
+<body>
+
+    <div class="box-container">
+        <div class="box" id="box1">
+            <div class="box-content">
+				<input type="radio" id="box1" onclick="toggleBox('box1')" name="bundle" value="195" >
+                <span>1 Pair<div>DKK 195.00</div></span>
+          
+    <span>50% OFF</span>
+            </div>
+        </div>
+        <div class="box" id="box2">
+            <div class="box-content">
+               <input type="radio" id="box2" onclick="toggleBox('box2')" name="bundle" value="344" >
+                <span>2 Pair<div>DKK 344.00</div></span>
+          <span>  40% OFF</span>
+            </div>
+        </div>
+        <div class="box" id="box3">
+            <div class="box-content">
+                <input type="radio" id="box3" onclick="toggleBox('box3')"name="bundle" value="528" >
+                <span>3 Pair<div>DKK 528.00</div></span>
+          <span>60% OFF</span>
+            </div>
+        </div>
+         <button type="submit" class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <div id="options" class="options-container">
+        <div class="options">
+            <label for="color">Color:</label>
+            <select id="color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select>
+        </div>
+        <div class="options">
+            <label for="size">Size:</label>
+            <select id="size">
+                <option value="100px">Small</option>
+                <option value="200px">Medium</option>
+                <option value="300px">Large</option>
+            </select>
+        </div>
+    </div>
+     
+      
+   
+
+    
+
+
+  <script>
+    
+      const boxes = document.querySelectorAll('.box');
+
+// Get the options container and its elements
+const optionsContainer = document.getElementById('options');
+const colorSelect = document.getElementById('color');
+const sizeSelect = document.getElementById('size');
+
+// Track the current box being interacted with
+let currentBox = null;
+
+// Function to handle box click
+boxes.forEach((box) => {
+    box.addEventListener('click', function() {
+        // If the box is already expanded, just return
+        if (box.classList.contains('expanded')) {
+            return;
+        }
+
+        // Expand the clicked box
+        boxes.forEach(b => b.classList.remove('expanded')); // collapse all
+        box.classList.add('expanded');
+        
+        // Display the options container
+        optionsContainer.style.display = 'block';
+        currentBox = box; // Track the box being interacted with
+    });
+});
+
+// Update the box style based on selected options
+colorSelect.addEventListener('change', function() {
+    if (currentBox) {
+        currentBox.style.backgroundColor = colorSelect.value;
+    }
+});
+
+sizeSelect.addEventListener('change', function() {
+    if (currentBox) {
+        currentBox.style.height = sizeSelect.value;
+    }
+});
+
+// Optional: Close options container on outside click (or pressing ESC)
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.box') && !event.target.closest('#options')) {
+        optionsContainer.style.display = 'none';
+        if (currentBox) {
+            currentBox.classList.remove('expanded');
+        }
+    }
+});
+  </script>
+<script src="script.js"></script>
+</body>
+</html>
